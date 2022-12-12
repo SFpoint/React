@@ -1,26 +1,41 @@
-import {useState}  from "react"
+import {useEffect, useState}  from "react"
 import { Message } from "./components/Message"
 import './Styles/App.css'
-
+import {AUTHOR} from "./constants"
+import {MessageList} from "./components/MessageList"
 
 function App() {
-    const [messageValue, setMessageValue] = useState ('Enter your message')
+    const [messageValue, setMessageValue] = useState ([])
 
 
-    const handleChange = (event) => {
-        setMessageValue(event.target.value)
+    const addMessage = (newMessage) => {
+        setMessageValue([...messageValue, newMessage])
     }
+
+    useEffect(()=>{
+        if (messageValue.length > 0 && messageValue[messageValue.length -1].author === AUTHOR.user){
+            const timeout = setTimeout(()=>{
+                addMessage({
+                    author: AUTHOR.bot,
+                    text: "I AM BOT"
+                })
+            }, 1500)
+            return() =>{
+                clearTimeout(timeout)
+            }
+        }
+    },[messageValue])
 
     return(
         <>
         <div className="Body">
             <header className="App-header">
-            <h1>First Lesson</h1>
+            <h1>Second Lesson</h1>
             </header>
             <main className="Main">
-            <textarea className="Input" type="text" placeholder="Just write something here" onChange = {handleChange }/>
-            <Message  title='MESSAGE' value={messageValue}/>
+            <Message  title='MESSAGE' addMessage={addMessage}/>            
             </main>
+            <MessageList messages={messageValue} />
             </div>
 
         </>    
