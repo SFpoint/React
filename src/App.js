@@ -3,6 +3,9 @@ import { Message } from "./components/Message"
 import './Styles/App.css'
 import {AUTHOR} from "./constants"
 import {MessageList} from "./components/MessageList"
+import ChatList from './components/Chats'
+import Grid from '@mui/material/Grid';
+
 
 function App() {
     const [messageValue, setMessageValue] = useState ([])
@@ -24,18 +27,27 @@ function App() {
                 clearTimeout(timeout)
             }
         }
-    },[messageValue])
+    })
 
     return(
         <>
-        <div className="Body">
+            <div className="Body">
             <header className="App-header">
-            <h1>Second Lesson</h1>
+            <h1>Third Lesson</h1>
             </header>
             <main className="Main">
             <Message  title='MESSAGE' addMessage={addMessage}/>            
             </main>
+            <div className="Chats">
+            <Grid container spacing={4}>
+            <Grid item xs={6}>
+            <ChatList title='ChatList'/>
+            </Grid>
+            <Grid item xs={6}>
             <MessageList messages={messageValue} />
+            </Grid>
+            </Grid>
+            </div>
             </div>
 
         </>    
